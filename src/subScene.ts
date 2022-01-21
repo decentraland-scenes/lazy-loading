@@ -1,6 +1,18 @@
 import * as utils from '@dcl/ecs-scene-utils'
 import { nftCollection, Painting } from './nfts'
 
+let allShapesType =
+  BoxShape ||
+  CylinderShape ||
+  ConeShape ||
+  SphereShape ||
+  PlaneShape ||
+  AvatarShape ||
+  CircleShape ||
+  TextShape ||
+  GLTFShape ||
+  NFTShape
+
 export class SubScene extends Entity {
   public entities: Entity[]
   public id: number
@@ -32,19 +44,22 @@ export class SubScene extends Entity {
     )
   }
 
+  addEntity(newEntity: Entity) {
+    this.entities.push(newEntity)
+
+    newEntity.getComponent('engine.shape').visible = false
+  }
+
   show() {
     this.entities.forEach((entity) => {
-      if (!entity.alive) {
-        engine.addEntity(entity)
-      }
+      entity.getComponent('engine.shape').visible = true
+      log('making visible ', entity.uuid)
     })
   }
 
   hide() {
     this.entities.forEach((entity) => {
-      if (entity.alive) {
-        engine.removeEntity(entity)
-      }
+      entity.getComponent('engine.shape').visible = false
     })
   }
 }
@@ -99,22 +114,22 @@ for (let nft of nftCollection) {
   // assign entity to subScene
   switch (nft.room) {
     case 1:
-      gallery1.entities.push(painting)
+      gallery1.addEntity(painting)
       break
     case 2:
-      gallery2.entities.push(painting)
+      gallery2.addEntity(painting)
       break
     case 3:
-      gallery3.entities.push(painting)
+      gallery3.addEntity(painting)
       break
     case 4:
-      gallery4.entities.push(painting)
+      gallery4.addEntity(painting)
       break
     case 5:
-      gallery5.entities.push(painting)
+      gallery5.addEntity(painting)
       break
     case 6:
-      gallery6.entities.push(painting)
+      gallery6.addEntity(painting)
       break
   }
 }

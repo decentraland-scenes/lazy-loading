@@ -220,9 +220,6 @@ export class Painting extends Entity {
     super()
     this.addComponent(new Transform(position))
 
-    // notice the entity is not added to the engine on purpose
-    // engine.addEntity(this)
-
     this.id = id
 
     this.address = 'ethereum://' + contract + '/' + tokenId
@@ -231,5 +228,7 @@ export class Painting extends Entity {
       style: PictureFrameStyle.Gold_Edges,
     })
     this.addComponent(nftShape)
+
+    engine.addEntity(this)
   }
 }
