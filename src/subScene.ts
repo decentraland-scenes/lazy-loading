@@ -1,94 +1,91 @@
 import * as utils from '@dcl/ecs-scene-utils'
-import { nftCollection, Painting } from './nfts'
+import { nftCollection, createPainting } from './nfts'
 
-export class SubScene extends Entity {
-  public entities: Entity[]
-  public id: number
+export function createSubScene(
+  id: number,
+  triggerPosition: Vector3,
+  triggerSize: Vector3,
+  entities: Entity[]
+) {
+  const myEntity = new Entity()
+  engine.addEntity(myEntity)
 
-  constructor(
-    id: number,
-    triggerPosition: Vector3,
-    triggerSize: Vector3,
-    entities: Entity[]
-  ) {
-    super()
-    engine.addEntity(this)
+  const triggerBox = new utils.TriggerBoxShape(triggerSize, triggerPosition)
+  myEntity.addComponent(
+    new utils.TriggerComponent(triggerBox, {
+      onCameraEnter: () => {
+        show()
+      },
+      onCameraExit: () => {
+        hide()
+      }
+      // uncomment the line below to see the areas covered by the trigger areas
+      // enableDebug: true,
+    })
+  )
 
-    this.id = id
-    this.entities = entities
-
-    const triggerBox = new utils.TriggerBoxShape(triggerSize, triggerPosition)
-    this.addComponent(
-      new utils.TriggerComponent(triggerBox, {
-        onCameraEnter: () => {
-          this.show()
-        },
-        onCameraExit: () => {
-          this.hide()
-        }
-        // uncomment the line below to see the areas covered by the trigger areas
-        // enableDebug: true,
-      })
-    )
-  }
-
-  addEntity(newEntity: Entity) {
-    this.entities.push(newEntity)
+  function addEntity(newEntity: Entity) {
+    entities.push(newEntity)
 
     newEntity.getComponent('engine.shape').visible = false
   }
 
-  show() {
-    this.entities.forEach((entity) => {
+  function show() {
+    entities.forEach((entity) => {
       entity.getComponent('engine.shape').visible = true
       log('making visible ', entity.uuid)
     })
   }
 
-  hide() {
-    this.entities.forEach((entity) => {
+  function hide() {
+    entities.forEach((entity) => {
       entity.getComponent('engine.shape').visible = false
     })
+  }
+
+  return {
+    entity,
+    addEntity
   }
 }
 
 // create subScenes
-const gallery1 = new SubScene(
+const gallery1 = createSubScene(
   1,
   new Vector3(4, 1, 26),
   new Vector3(10, 8, 16),
   []
 )
 
-const gallery2 = new SubScene(
+const gallery2 = createSubScene(
   2,
   new Vector3(16, 1, 26),
   new Vector3(10, 8, 16),
   []
 )
 
-const gallery3 = new SubScene(
+const gallery3 = createSubScene(
   3,
   new Vector3(26, 1, 26),
   new Vector3(10, 8, 16),
   []
 )
 
-const gallery4 = new SubScene(
+const gallery4 = createSubScene(
   4,
   new Vector3(4, 1, 8),
   new Vector3(10, 8, 16),
   []
 )
 
-const gallery5 = new SubScene(
+const gallery5 = createSubScene(
   5,
   new Vector3(16, 1, 8),
   new Vector3(10, 8, 16),
   []
 )
 
-const gallery6 = new SubScene(
+const gallery6 = createSubScene(
   6,
   new Vector3(26, 1, 8),
   new Vector3(10, 8, 16),
@@ -97,7 +94,12 @@ const gallery6 = new SubScene(
 
 for (const nft of nftCollection) {
   // create entity
-  const painting = new Painting(nft.id, nft.position, nft.contract, nft.tokenId)
+  const painting = createPainting(
+    nft.id,
+    nft.position,
+    nft.contract,
+    nft.tokenId
+  )
 
   // assign entity to subScene
   switch (nft.room) {

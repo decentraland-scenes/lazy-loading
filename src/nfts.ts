@@ -207,28 +207,22 @@ export const nftCollection: NFTdata[] = [
   }
 ]
 
-export class Painting extends Entity {
-  public id: number
-  public address: string
+export function createPainting(
+  id: number,
+  position: TransformConstructorArgs,
+  contract: string,
+  tokenId: string
+) {
+  const address: string = 'ethereum://' + contract + '/' + tokenId
+  const entity = new Entity()
 
-  constructor(
-    id: number,
-    position: TransformConstructorArgs,
-    contract: string,
-    tokenId: string
-  ) {
-    super()
-    this.addComponent(new Transform(position))
+  const nftShape = new NFTShape(address, {
+    style: PictureFrameStyle.Gold_Edges
+  })
 
-    this.id = id
+  entity.addComponent(new Transform(position))
+  entity.addComponent(nftShape)
 
-    this.address = 'ethereum://' + contract + '/' + tokenId
-
-    const nftShape = new NFTShape(this.address, {
-      style: PictureFrameStyle.Gold_Edges
-    })
-    this.addComponent(nftShape)
-
-    engine.addEntity(this)
-  }
+  engine.addEntity(entity)
+  return entity
 }
