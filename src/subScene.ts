@@ -1,18 +1,6 @@
 import * as utils from '@dcl/ecs-scene-utils'
 import { nftCollection, Painting } from './nfts'
 
-let allShapesType =
-  BoxShape ||
-  CylinderShape ||
-  ConeShape ||
-  SphereShape ||
-  PlaneShape ||
-  AvatarShape ||
-  CircleShape ||
-  TextShape ||
-  GLTFShape ||
-  NFTShape
-
 export class SubScene extends Entity {
   public entities: Entity[]
   public id: number
@@ -29,7 +17,7 @@ export class SubScene extends Entity {
     this.id = id
     this.entities = entities
 
-    let triggerBox = new utils.TriggerBoxShape(triggerSize, triggerPosition)
+    const triggerBox = new utils.TriggerBoxShape(triggerSize, triggerPosition)
     this.addComponent(
       new utils.TriggerComponent(triggerBox, {
         onCameraEnter: () => {
@@ -37,7 +25,7 @@ export class SubScene extends Entity {
         },
         onCameraExit: () => {
           this.hide()
-        },
+        }
         // uncomment the line below to see the areas covered by the trigger areas
         // enableDebug: true,
       })
@@ -107,9 +95,9 @@ const gallery6 = new SubScene(
   []
 )
 
-for (let nft of nftCollection) {
+for (const nft of nftCollection) {
   // create entity
-  let painting = new Painting(nft.id, nft.position, nft.contract, nft.tokenId)
+  const painting = new Painting(nft.id, nft.position, nft.contract, nft.tokenId)
 
   // assign entity to subScene
   switch (nft.room) {

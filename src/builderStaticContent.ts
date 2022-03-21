@@ -3,7 +3,7 @@ engine.addEntity(_scene)
 const transform = new Transform({
   position: new Vector3(0, 0, 0),
   rotation: new Quaternion(0, 0, 0, 1),
-  scale: new Vector3(1, 1, 1),
+  scale: new Vector3(1, 1, 1)
 })
 _scene.addComponentOrReplace(transform)
 
@@ -15,7 +15,7 @@ entity.addComponentOrReplace(gltfShape)
 const transform2 = new Transform({
   position: new Vector3(8, 0, 8),
   rotation: new Quaternion(0, 0, 0, 1),
-  scale: new Vector3(1, 1, 1),
+  scale: new Vector3(1, 1, 1)
 })
 entity.addComponentOrReplace(transform2)
 
@@ -26,7 +26,7 @@ entity2.addComponentOrReplace(gltfShape)
 const transform3 = new Transform({
   position: new Vector3(24, 0, 8),
   rotation: new Quaternion(0, 0, 0, 1),
-  scale: new Vector3(1, 1, 1),
+  scale: new Vector3(1, 1, 1)
 })
 entity2.addComponentOrReplace(transform3)
 
@@ -37,7 +37,7 @@ entity3.addComponentOrReplace(gltfShape)
 const transform4 = new Transform({
   position: new Vector3(8, 0, 24),
   rotation: new Quaternion(0, 0, 0, 1),
-  scale: new Vector3(1, 1, 1),
+  scale: new Vector3(1, 1, 1)
 })
 entity3.addComponentOrReplace(transform4)
 
@@ -48,7 +48,7 @@ entity4.addComponentOrReplace(gltfShape)
 const transform5 = new Transform({
   position: new Vector3(24, 0, 24),
   rotation: new Quaternion(0, 0, 0, 1),
-  scale: new Vector3(1, 1, 1),
+  scale: new Vector3(1, 1, 1)
 })
 entity4.addComponentOrReplace(transform5)
 
@@ -58,7 +58,7 @@ shopBlack.setParent(_scene)
 const transform6 = new Transform({
   position: new Vector3(26, 0, 8),
   rotation: new Quaternion(0, 0, 0, 1),
-  scale: new Vector3(1, 1, 1),
+  scale: new Vector3(1, 1, 1)
 })
 shopBlack.addComponentOrReplace(transform6)
 const gltfShape2 = new GLTFShape('models/Shop_Black.glb')
@@ -71,7 +71,7 @@ shopBlack2.addComponentOrReplace(gltfShape2)
 const transform7 = new Transform({
   position: new Vector3(16, 0, 8),
   rotation: new Quaternion(0, 0, 0, 1),
-  scale: new Vector3(1, 1, 1),
+  scale: new Vector3(1, 1, 1)
 })
 shopBlack2.addComponentOrReplace(transform7)
 
@@ -82,7 +82,7 @@ shopBlack3.addComponentOrReplace(gltfShape2)
 const transform8 = new Transform({
   position: new Vector3(4, 0, 8),
   rotation: new Quaternion(0, 0, 0, 1),
-  scale: new Vector3(1, 1, 1),
+  scale: new Vector3(1, 1, 1)
 })
 shopBlack3.addComponentOrReplace(transform8)
 
@@ -96,9 +96,9 @@ const transform9 = new Transform({
     7.362779683899381e-15,
     1,
     -1.1920927533992653e-7,
-    2.9802322387695312e-8
+    2.980232238769531e-8
   ),
-  scale: new Vector3(1, 1, 1),
+  scale: new Vector3(1, 1, 1)
 })
 shopBlack4.addComponentOrReplace(transform9)
 
@@ -112,9 +112,9 @@ const transform10 = new Transform({
     7.362779683899381e-15,
     1,
     -1.1920927533992653e-7,
-    2.9802322387695312e-8
+    2.980232238769531e-8
   ),
-  scale: new Vector3(1, 1, 1),
+  scale: new Vector3(1, 1, 1)
 })
 shopBlack5.addComponentOrReplace(transform10)
 
@@ -128,9 +128,9 @@ const transform11 = new Transform({
     7.362779683899381e-15,
     1,
     -1.1920927533992653e-7,
-    2.9802322387695312e-8
+    2.980232238769531e-8
   ),
-  scale: new Vector3(1, 1, 1),
+  scale: new Vector3(1, 1, 1)
 })
 shopBlack6.addComponentOrReplace(transform11)
 
@@ -144,7 +144,7 @@ const transform12 = new Transform({
     -0.7071068286895752,
     8.429369557916289e-8,
     0.7071068286895752
-  ),
+  )
 })
 rockTile.addComponentOrReplace(transform12)
 const gltfShape3 = new GLTFShape('models/FloorBlock_04.glb')
@@ -161,7 +161,7 @@ const transform13 = new Transform({
     -0.7071068286895752,
     8.429369557916289e-8,
     0.7071068286895752
-  ),
+  )
 })
 rockTile2.addComponentOrReplace(transform13)
 
@@ -176,7 +176,7 @@ const transform14 = new Transform({
     -0.7071068286895752,
     8.429369557916289e-8,
     0.7071068286895752
-  ),
+  )
 })
 rockTile3.addComponentOrReplace(transform14)
 
@@ -191,7 +191,7 @@ const transform15 = new Transform({
     -0.7071068286895752,
     8.429369557916289e-8,
     0.7071068286895752
-  ),
+  )
 })
 rockTile4.addComponentOrReplace(transform15)
 
@@ -206,7 +206,7 @@ const transform16 = new Transform({
     -0.7071068286895752,
     8.429369557916289e-8,
     0.7071068286895752
-  ),
+  )
 })
 rockTile5.addComponentOrReplace(transform16)
 
@@ -221,7 +221,7 @@ const transform17 = new Transform({
     -0.7071068286895752,
     8.429369557916289e-8,
     0.7071068286895752
-  ),
+  )
 })
 rockTile6.addComponentOrReplace(transform17)
 
@@ -236,7 +236,7 @@ const transform18 = new Transform({
     -0.7071068286895752,
     8.429369557916289e-8,
     0.7071068286895752
-  ),
+  )
 })
 rockTile7.addComponentOrReplace(transform18)
 
@@ -251,7 +251,7 @@ const transform19 = new Transform({
     -0.7071068286895752,
     8.429369557916289e-8,
     0.7071068286895752
-  ),
+  )
 })
 rockTile8.addComponentOrReplace(transform19)
 
@@ -266,7 +266,7 @@ const transform20 = new Transform({
     -0.7071068286895752,
     8.429369557916289e-8,
     0.7071068286895752
-  ),
+  )
 })
 rockTile9.addComponentOrReplace(transform20)
 
@@ -281,7 +281,7 @@ const transform21 = new Transform({
     -0.7071068286895752,
     8.429369557916289e-8,
     0.7071068286895752
-  ),
+  )
 })
 rockTile10.addComponentOrReplace(transform21)
 
@@ -296,7 +296,7 @@ const transform22 = new Transform({
     -0.7071068286895752,
     8.429369557916289e-8,
     0.7071068286895752
-  ),
+  )
 })
 rockTile11.addComponentOrReplace(transform22)
 
@@ -311,7 +311,7 @@ const transform23 = new Transform({
     -0.7071068286895752,
     8.429369557916289e-8,
     0.7071068286895752
-  ),
+  )
 })
 rockTile12.addComponentOrReplace(transform23)
 
@@ -326,7 +326,7 @@ const transform24 = new Transform({
     -0.7071068286895752,
     8.429369557916289e-8,
     0.7071068286895752
-  ),
+  )
 })
 rockTile13.addComponentOrReplace(transform24)
 
@@ -341,7 +341,7 @@ const transform25 = new Transform({
     -0.7071068286895752,
     8.429369557916289e-8,
     0.7071068286895752
-  ),
+  )
 })
 rockTile14.addComponentOrReplace(transform25)
 
@@ -356,7 +356,7 @@ const transform26 = new Transform({
     -0.7071068286895752,
     8.429369557916289e-8,
     0.7071068286895752
-  ),
+  )
 })
 rockTile15.addComponentOrReplace(transform26)
 
@@ -371,6 +371,6 @@ const transform27 = new Transform({
     -0.7071068286895752,
     8.429369557916289e-8,
     0.7071068286895752
-  ),
+  )
 })
 rockTile16.addComponentOrReplace(transform27)
