@@ -21,5 +21,10 @@
   },
   "bundleDependencies": [
     "@dcl/ecs-scene-utils"
-  ]
+  ],
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0",
+    "yarn": "please use npm"
+  }
 }
