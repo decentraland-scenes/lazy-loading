@@ -13,10 +13,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(4, 2, 30),
       rotation: new Quaternion(0, 0, 0, 1),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '224',
+    tokenId: '224'
   },
   {
     room: 1,
@@ -24,10 +24,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(2, 2, 26),
       rotation: Quaternion.Euler(0, -90, 0),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '223',
+    tokenId: '223'
   },
   {
     room: 1,
@@ -35,10 +35,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(6.3, 2, 26),
       rotation: Quaternion.Euler(0, 90, 0),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '218',
+    tokenId: '218'
   },
   {
     room: 2,
@@ -46,10 +46,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(4 + 12, 2, 30),
       rotation: new Quaternion(0, 0, 0, 1),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '100',
+    tokenId: '100'
   },
   {
     room: 2,
@@ -57,10 +57,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(2 + 12, 2, 26),
       rotation: Quaternion.Euler(0, -90, 0),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '101',
+    tokenId: '101'
   },
   {
     room: 2,
@@ -68,10 +68,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(6.3 + 12, 2, 26),
       rotation: Quaternion.Euler(0, 90, 0),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '102',
+    tokenId: '102'
   },
   {
     room: 3,
@@ -79,10 +79,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(4 + 22, 2, 30),
       rotation: new Quaternion(0, 0, 0, 1),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '110',
+    tokenId: '110'
   },
   {
     room: 3,
@@ -90,10 +90,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(2 + 22, 2, 26),
       rotation: Quaternion.Euler(0, -90, 0),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '111',
+    tokenId: '111'
   },
   {
     room: 3,
@@ -101,10 +101,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(6.3 + 22, 2, 26),
       rotation: Quaternion.Euler(0, 90, 0),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '112',
+    tokenId: '112'
   },
   {
     room: 4,
@@ -112,10 +112,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(4, 2, 22 - 18),
       rotation: Quaternion.Euler(0, 180, 0),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '113',
+    tokenId: '113'
   },
   {
     room: 4,
@@ -123,10 +123,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(1.7, 2, 26 - 18),
       rotation: Quaternion.Euler(0, -90, 0),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '114',
+    tokenId: '114'
   },
   {
     room: 4,
@@ -134,10 +134,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(6.3, 2, 26 - 18),
       rotation: Quaternion.Euler(0, 90, 0),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '115',
+    tokenId: '115'
   },
   {
     room: 5,
@@ -145,10 +145,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(4 + 12, 2, 22 - 18),
       rotation: Quaternion.Euler(0, 180, 0),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '98',
+    tokenId: '98'
   },
   {
     room: 5,
@@ -156,10 +156,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(1.7 + 12, 2, 26 - 18),
       rotation: Quaternion.Euler(0, -90, 0),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '87',
+    tokenId: '87'
   },
   {
     room: 5,
@@ -167,10 +167,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(6.3 + 12, 2, 26 - 18),
       rotation: Quaternion.Euler(0, 90, 0),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '66',
+    tokenId: '66'
   },
   {
     room: 6,
@@ -178,10 +178,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(4 + 22, 2, 22 - 18),
       rotation: Quaternion.Euler(0, 180, 0),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '3',
+    tokenId: '3'
   },
   {
     room: 6,
@@ -189,10 +189,10 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(1.7 + 22, 2, 26 - 18),
       rotation: Quaternion.Euler(0, -90, 0),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '4',
+    tokenId: '4'
   },
   {
     room: 6,
@@ -200,35 +200,29 @@ export const nftCollection: NFTdata[] = [
     position: {
       position: new Vector3(6.3 + 22, 2, 26 - 18),
       rotation: Quaternion.Euler(0, 90, 0),
-      scale: new Vector3(2.5, 2.5, 2.5),
+      scale: new Vector3(2.5, 2.5, 2.5)
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
-    tokenId: '8',
-  },
+    tokenId: '8'
+  }
 ]
 
-export class Painting extends Entity {
-  public id: number
-  public address: string
+export function createPainting(
+  id: number,
+  position: TransformConstructorArgs,
+  contract: string,
+  tokenId: string
+) {
+  const address: string = 'ethereum://' + contract + '/' + tokenId
+  const entity = new Entity()
 
-  constructor(
-    id: number,
-    position: TransformConstructorArgs,
-    contract: string,
-    tokenId: string
-  ) {
-    super()
-    this.addComponent(new Transform(position))
+  const nftShape = new NFTShape(address, {
+    style: PictureFrameStyle.Gold_Edges
+  })
 
-    this.id = id
+  entity.addComponent(new Transform(position))
+  entity.addComponent(nftShape)
 
-    this.address = 'ethereum://' + contract + '/' + tokenId
-
-    const nftShape = new NFTShape(this.address, {
-      style: PictureFrameStyle.Gold_Edges,
-    })
-    this.addComponent(nftShape)
-
-    engine.addEntity(this)
-  }
+  engine.addEntity(entity)
+  return entity
 }
