@@ -1,3 +1,9 @@
+/**
+ * 
+ * static non changing stuff accross all subscenes goes here
+ * 
+ */
+
 const _scene = new Entity('_scene')
 engine.addEntity(_scene)
 
