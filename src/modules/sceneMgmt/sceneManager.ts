@@ -7,12 +7,15 @@ export type SceneInitData={
   entities: SceneEntity[]
   name:string
 }
-
+ 
 export class SceneManager{
-  scenes:SubScene[] = []
+  scenes:SubScene[] = [] 
+
+  //set scene gen id at some higher number reserving low numbers fo manaul assigns
+  sceneIdGen = 1000
 
   generateSceneId():number{
-    return this.scenes.length+1
+    return this.sceneIdGen++//this.scenes.length+1
   }
   getSceneById(id:number):SubScene|null{
     for(const p in this.scenes){
@@ -40,13 +43,18 @@ export class SceneManager{
     return retScene
   }
   changeToScene(scene:SubScene){
+    log("changeToScene",scene.name)
     for(const p in this.scenes){
       if(this.scenes[p] == scene){
 
       }else{
+        log("changeToScene. hiding",this.scenes[p].name)
         this.scenes[p].hide()
+        this.scenes[p].disable()
       }
     }
+    log("changeToScene. activating",scene.name)
+    scene.enable()
     scene.show()
   }
   initScenes(){

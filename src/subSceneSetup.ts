@@ -1,112 +1,106 @@
 import * as utils from '@dcl/ecs-scene-utils'
 import { nftCollection, createPainting } from './nfts'
 import { SceneInitData, SceneManager } from './modules/sceneMgmt/sceneManager';
-import { BaseEntityWrapper, SubScene } from './modules/sceneMgmt/subScene'
+import { BaseEntityWrapper, SceneEntity, SubScene, SubSceneGroup, VisibilityStrategyEnum } from './modules/sceneMgmt/subScene'
+import { createScene1 } from './builderStaticContent_scene1';
+import { createScene2 } from './builderStaticContent_scene2';
+import { createScene3 } from './builderStaticContent_scene3';
+import { SCENE_MGR } from './globals';
 
-export const SCENE_MGR = new SceneManager();
-/*
-const sceneInit:SceneInitData = {
-  entities:[],
-  name:"name",
-  onInit:(wrap:BaseEntityWrapper)=>{},
-  onHide:(wrap:BaseEntityWrapper)=>{},
-  onShow:(wrap:BaseEntityWrapper)=>{},
-}
-SCENE_MGR.addScene(sceneInit)
-*/
-export function createSubScene(
-  id: number,
-  triggerPosition: Vector3,
-  triggerSize: Vector3,
-  entities: Entity[]
-) {
 
+
+
+const galleryGroup1 = createScene1()
+//const _scene1 = loadStaticScene1()
+const galleryGroup2 = createScene2()
+const galleryGroup3 = createScene3()
+
+
+
+SCENE_MGR.changeToScene(galleryGroup3)
   
-  const subScene = new SubScene( id,"scene-"+id,[],triggerPosition,triggerSize )
-  subScene.addOnShowListener((baseEntWrapper)=>{
-    log(subScene.id + " show called")
-  })
-  subScene.addOnHideListener( (baseEntWrapper)=>{
-    log(subScene.id + " hide called")
-  })
-  subScene.addOnInitListener( (baseEntWrapper)=>{
-    log(subScene.id + " onInit called")
-  })
 
-  SCENE_MGR.addScene(subScene)
+let toggleCnter = 0
 
-  return subScene;
-}
+const toggleEnt = new Entity()
+engine.addEntity(toggleEnt)
+toggleEnt.addComponent(new BoxShape())
+toggleEnt.addComponent(new Transform(
+  {position:new Vector3(8,1,16)}
+)) 
+toggleEnt.addComponent(new OnPointerDown(()=>{
+  
+  switch(toggleCnter){
+    case 0:
+      SCENE_MGR.changeToScene(galleryGroup1)
+      
+      toggleEnt.getComponent(OnPointerDown).hoverText = "Show Group 2"
+      break;
+    case 1:
+      SCENE_MGR.changeToScene(galleryGroup2)
+      toggleEnt.getComponent(OnPointerDown).hoverText = "Show Group 3"
+      break;
+    case 2:
+      SCENE_MGR.changeToScene(galleryGroup3)
+      toggleEnt.getComponent(OnPointerDown).hoverText = "Show Group 1"
+      break;
+  }
 
-// create subScenes
-const gallery1 = createSubScene(
-  1,
-  new Vector3(4, 1, 26),
-  new Vector3(10, 8, 16),
-  []
-)
-
-
-
-const gallery2 = createSubScene(
-  2,
-  new Vector3(16, 1, 26),
-  new Vector3(10, 8, 16),
-  []
-)
-
-const gallery3 = createSubScene(
-  3,
-  new Vector3(26, 1, 26),
-  new Vector3(10, 8, 16),
-  []
-)
-
-const gallery4 = createSubScene(
-  4,
-  new Vector3(4, 1, 8),
-  new Vector3(10, 8, 16),
-  []
-)
-
-const gallery5 = createSubScene(
-  5,
-  new Vector3(16, 1, 8),
-  new Vector3(10, 8, 16),
-  []
-)
-
-const gallery6 = createSubScene(
-  6,
-  new Vector3(26, 1, 8),
-  new Vector3(10, 8, 16),
-  []
-)
+  toggleCnter++
+  if(toggleCnter >= 3){
+    toggleCnter = 0
+  }
+  //debugger
+  //SCENE_MGR.changeToScene(galleryGroup2)
+  
+},{
+  hoverText:"Show Group 1"
+}))
 
 for (const nft of nftCollection) {
   
   const scene = SCENE_MGR.getSceneById(nft.room)
  
   if(scene){
+    log("scene.nft.adding paintings",scene.id,scene.name)
     scene.addOnInitListener((entityWrapper:BaseEntityWrapper)=>{
-      log("scene.adding paintings",scene.id,nft)
+      log("scene.init.called.adding paintings",scene.id,nft)
+       
+      //const parent = new Entity("painting-parent-"+scene.id)
+      //engine.addEntity(parent)
+
       const painting = createPainting(
+        undefined,
         nft.id,
         nft.position,
         nft.contract, 
-        nft.tokenId
+        nft.tokenId 
       )
+      //engine.addEntity(painting)
+ 
       //scene.
-      const sceneEnt = scene.addEntity(painting)
+      const sceneEnt = scene.addEntity(painting,{
+        onInit:(entity:SceneEntity)=>{
+          log("scene.ent.init.called.on",scene.id,entity.name,nft)
+          
+          //add to engine when needed
+          if(sceneEnt.visibilityStrategy == VisibilityStrategyEnum.SHAPE_SHOW_HIDE ) engine.addEntity(painting)
+        }
+      }) 
+      sceneEnt.visible = scene.visible
+      sceneEnt.enabled = scene.enabled
       sceneEnt.addOnShowListener((entityWrap)=>{
         log("painting.showed ",nft.id)
+        //engine.addEntity(painting)
       })
+      sceneEnt.addOnHideListener((entityWrap)=>{
+        log("painting.hidden ",nft.id)
+        //engine.addEntity(painting)
+      })
+      sceneEnt.visibilityStrategy = VisibilityStrategyEnum.ENGINE_ADD_REMOVE
     })
   }else{
-    log("count not find scene",nft.room)
+    log("could not find scene",nft.room)
   }
 }
   
-SCENE_MGR.initScenes()
-SCENE_MGR.hideScenes() 
- 

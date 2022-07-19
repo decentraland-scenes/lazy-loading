@@ -1,5 +1,6 @@
 const _scene = new Entity('_scene')
 engine.addEntity(_scene)
+
 const transform = new Transform({
   position: new Vector3(0, 0, 0),
   rotation: new Quaternion(0, 0, 0, 1),
@@ -51,88 +52,6 @@ const transform5 = new Transform({
   scale: new Vector3(1, 1, 1)
 })
 entity4.addComponentOrReplace(transform5)
-
-const shopBlack = new Entity('shopBlack')
-engine.addEntity(shopBlack)
-shopBlack.setParent(_scene)
-const transform6 = new Transform({
-  position: new Vector3(26, 0, 8),
-  rotation: new Quaternion(0, 0, 0, 1),
-  scale: new Vector3(1, 1, 1)
-})
-shopBlack.addComponentOrReplace(transform6)
-const gltfShape2 = new GLTFShape('models/Shop_Black.glb')
-shopBlack.addComponentOrReplace(gltfShape2)
-
-const shopBlack2 = new Entity('shopBlack2')
-engine.addEntity(shopBlack2)
-shopBlack2.setParent(_scene)
-shopBlack2.addComponentOrReplace(gltfShape2)
-const transform7 = new Transform({
-  position: new Vector3(16, 0, 8),
-  rotation: new Quaternion(0, 0, 0, 1),
-  scale: new Vector3(1, 1, 1)
-})
-shopBlack2.addComponentOrReplace(transform7)
-
-const shopBlack3 = new Entity('shopBlack3')
-engine.addEntity(shopBlack3)
-shopBlack3.setParent(_scene)
-shopBlack3.addComponentOrReplace(gltfShape2)
-const transform8 = new Transform({
-  position: new Vector3(4, 0, 8),
-  rotation: new Quaternion(0, 0, 0, 1),
-  scale: new Vector3(1, 1, 1)
-})
-shopBlack3.addComponentOrReplace(transform8)
-
-const shopBlack4 = new Entity('shopBlack4')
-engine.addEntity(shopBlack4)
-shopBlack4.setParent(_scene)
-shopBlack4.addComponentOrReplace(gltfShape2)
-const transform9 = new Transform({
-  position: new Vector3(26, 0, 26),
-  rotation: new Quaternion(
-    7.362779683899381e-15,
-    1,
-    -1.1920927533992653e-7,
-    2.980232238769531e-8
-  ),
-  scale: new Vector3(1, 1, 1)
-})
-shopBlack4.addComponentOrReplace(transform9)
-
-const shopBlack5 = new Entity('shopBlack5')
-engine.addEntity(shopBlack5)
-shopBlack5.setParent(_scene)
-shopBlack5.addComponentOrReplace(gltfShape2)
-const transform10 = new Transform({
-  position: new Vector3(16, 0, 26),
-  rotation: new Quaternion(
-    7.362779683899381e-15,
-    1,
-    -1.1920927533992653e-7,
-    2.980232238769531e-8
-  ),
-  scale: new Vector3(1, 1, 1)
-})
-shopBlack5.addComponentOrReplace(transform10)
-
-const shopBlack6 = new Entity('shopBlack6')
-engine.addEntity(shopBlack6)
-shopBlack6.setParent(_scene)
-shopBlack6.addComponentOrReplace(gltfShape2)
-const transform11 = new Transform({
-  position: new Vector3(4, 0, 26),
-  rotation: new Quaternion(
-    7.362779683899381e-15,
-    1,
-    -1.1920927533992653e-7,
-    2.980232238769531e-8
-  ),
-  scale: new Vector3(1, 1, 1)
-})
-shopBlack6.addComponentOrReplace(transform11)
 
 const rockTile = new Entity('rockTile')
 engine.addEntity(rockTile)
@@ -374,3 +293,6 @@ const transform27 = new Transform({
   )
 })
 rockTile16.addComponentOrReplace(transform27)
+
+
+

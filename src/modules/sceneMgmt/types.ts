@@ -38,8 +38,9 @@ export class ScenePOI{
   name?: string
   type?: string
   default?: boolean
-  position: SceneVector3Type<number|number[]>
-
+  position?: SceneVector3Type<number|number[]>
+  cameraLookAt?: Vector3
+  
   constructor(args:ScenePOIType){
     if(args && args.position) this.position = args.position
     if(args && args.default !== undefined) this.default = args.default
@@ -49,7 +50,7 @@ export class ScenePOI{
   }
   
   toTransformConstructorArg(){
-    return {position : this.position.toCenterVector3()}
+    return {position : this.position?.toCenterVector3()}
   }
 }
 

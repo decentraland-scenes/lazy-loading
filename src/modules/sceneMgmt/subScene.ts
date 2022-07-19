@@ -55,6 +55,8 @@ export class BaseEntityWrapper{
   onInitListener:EntityActionListener[] = [] //(scene:SubScene)=>void = []
   onShowListener:EntityActionListener[] = []
   onHideListener:EntityActionListener[] = []
+
+  enabled:boolean=true
   
   constructor(name:string,args?:EntityWrapperArgs){
     this.name = name
@@ -63,8 +65,17 @@ export class BaseEntityWrapper{
     if(args && args.onInit) this.addOnInitListener( args.onInit )
   }
 
-
+  disable(){
+    this.enabled = false
+  }
+  enable(){
+    this.enabled = true
+  }
   init(){
+    if(!this.enabled){
+      log("init() not enabled",this.name)
+      return;
+    }
     if(this.initAlready) return false;
   
     this.initAlready = true
@@ -89,7 +100,7 @@ export class BaseEntityWrapper{
         this.onHide(this);
         break;
       case 'show':
-        log("onChangeEntityVisibility calling onShow")
+        log("onChangeEntityVisibility calling onShow",this.name,this.enabled)
         this.onShow(this);
         break;
     }
@@ -119,13 +130,32 @@ export class BaseEntityWrapper{
     } 
   }
   
-  show(){ 
+  show(force?:boolean) {
     if(!this.initAlready) this.init()
+    if(!this.enabled){
+      log("show() not enabled",this.name)
+      return;
+    }
+
+    if((force === undefined || !force ) && this.visible){
+      log("show() already visible",this.name)
+      return;
+    }
+
     this.visible = true  
     this.onChangeEntityVisibility(this,'show')
   } 
  
-  hide(){
+  hide(force?:boolean) {
+    if((force === undefined || !force ) && !this.visible){
+      log("hide() already hidden",this.name)
+      return;
+    } 
+    if(!this.enabled){
+      log("hide() not enabled",this.name)
+      return;
+    }
+
     this.visible = false
     this.onChangeEntityVisibility(this,'hide')
   }
@@ -146,7 +176,7 @@ export class BaseEntityWrapper{
 
 export class EntityWrapper extends BaseEntityWrapper{
   
-  entity:Entity
+  rootEntity:Entity
   entities:Entity[]
 
   constructor(name:string,entity?:Entity|Entity[],args?:EntityWrapperArgs){
@@ -154,14 +184,14 @@ export class EntityWrapper extends BaseEntityWrapper{
 
     if(Array.isArray(entity)){
       //const ent:Entity = entity as Entity
-      this.entity = entity[0]
+      this.rootEntity = entity[0]
       this.entities = entity
     }else if(entity !== undefined){
-      this.entity = entity
+      this.rootEntity = entity
       this.entities = []
       this.entities.push( entity )
     }else{
-      this.entity = new Entity()
+      this.rootEntity = new Entity()
       this.entities = []
     }
 
@@ -169,17 +199,20 @@ export class EntityWrapper extends BaseEntityWrapper{
     if(args && args.onInit) this.onInit = args.onInit 
   }
 
+  addEntity(entity:Entity){
+    this.entities.push(entity)
+  }
   onShow(){ 
-    log("called onShow on",this.name,this.entities.length)
-    const entity = this.entity
+    log("EntityWrapper","called onShow on",this.name,this.entities.length)
+    const entity = this.rootEntity
 
     //if(this.name == 'closestTrack.debugUI') debugger
-    
-    this.showEntity(entity)
+
+    this.showEntity(entity,false)
 
     if(this.entities){
       for(const p in this.entities){
-        this.showEntity(this.entities[p])
+        this.showEntity(this.entities[p],true)
       }
     }
 
@@ -187,48 +220,53 @@ export class EntityWrapper extends BaseEntityWrapper{
   } 
  
   onHide(){
-    log("called onHide",this.name,this.entities.length)
-    const entity = this.entity
+    log("EntityWrapper","called onHide",this.name,this.entities.length,this.visibilityStrategy)
+    const entity = this.rootEntity
     
-    this.hideEntity(entity)
+    this.hideEntity(entity,false)
 
     if(this.entities){
       for(const p in this.entities){
-        this.hideEntity(this.entities[p])
+        this.hideEntity(this.entities[p],true)
       }
     }
 
     super.onHide(this)
   }
 
-  private showEntity(entity:Entity){
+  private showEntity(entity:Entity,child:boolean){
     if(!entity) return
+
+    
 
     if( this.visibilityStrategy == VisibilityStrategyEnum.SHAPE_SHOW_HIDE){
       if (entity.hasComponent('engine.shape')) {
+        log("XXXX showing",this.name)
         entity.getComponent('engine.shape').visible = true
         entity.getComponent('engine.shape').withCollisions = true
       }
       const transform = this.visibleTransformInfo
-      if (transform !== undefined) {
+      if (!child && transform !== undefined) {
         entity.addComponentOrReplace(transform)
       } 
-    }else{
+    }else{ 
       if (entity && !entity.alive) {
         engine.addEntity(entity)
       }
     }
   }
-  private hideEntity(entity:Entity){
+  private hideEntity(entity:Entity,child:boolean){
     if(!entity) return
 
     if( this.visibilityStrategy == VisibilityStrategyEnum.SHAPE_SHOW_HIDE){
+      
       if (entity.hasComponent('engine.shape')) {
-        log("hide.visible ",entity.name)
+        log("XXXX hiding",this.name)
+        log("EntityWrapper","hideEntity.visible ",entity.name)
         entity.getComponent('engine.shape').visible = false
         entity.getComponent('engine.shape').withCollisions = false
       }
-      if (entity.hasComponent(Transform)) {
+      if (!child && entity.hasComponent(Transform)) {
         const tf = entity.getComponent(Transform);
         if( tf !== VAULT){
           //FIXME this is a work around, if need to preserve position over time (moveUtils etc) this wont work
@@ -238,7 +276,7 @@ export class EntityWrapper extends BaseEntityWrapper{
       }
     }else{
       if (entity && entity.alive) {
-        log("hide.removing ",entity.name)
+        log("EntityWrapper","hideEntity.removing ",entity.name)
         engine.removeEntity(entity)
       }
     }
@@ -275,7 +313,7 @@ export class SubScene extends BaseEntityWrapper{
     super(name,undefined)
 
     log("constructor",id,name,entities)
-
+ 
     //engine.addEntity(this)
 
     
@@ -296,19 +334,20 @@ export class SubScene extends BaseEntityWrapper{
             this.hide()
           },
           // uncomment the line below to see the areas covered by the trigger areas
-          // enableDebug: true,
+          //enableDebug: true,
         }) 
       )
     }
   } 
+  
  
-  addEntity(sceneEnt:SceneEntity|Entity):SceneEntity{
+  addEntity(sceneEnt:SceneEntity|Entity,args?:SceneEntityArgs):SceneEntity{
     let retSceneEnt
     if(sceneEnt instanceof SceneEntity){
       retSceneEnt = sceneEnt
       this.entities.push(sceneEnt)
     }else{
-      retSceneEnt = new SceneEntity( sceneEnt.name !== undefined ? sceneEnt.name : "undefined-scene-",sceneEnt)
+      retSceneEnt = new SceneEntity( sceneEnt.name !== undefined ? sceneEnt.name : "undefined-scene-",sceneEnt,args)
       this.entities.push( retSceneEnt )
     }
     log("subscene.addEntity",this.entities,this.id)
@@ -325,7 +364,7 @@ export class SubScene extends BaseEntityWrapper{
 
   }
 
-  randomSpawnPoint(spawnPointFilter?:POISelectorType){
+  randomSpawnPoint(spawnPointFilter?:POISelectorType):SpawnPoint{
 
     let list = this.spawnPoints
     
@@ -342,23 +381,44 @@ export class SubScene extends BaseEntityWrapper{
     return spawnPoint
   }
 
-  movePlayerHere(spawnPointFilter?:POISelectorType){
+  movePlayerHere(spawnPointFilter?:POISelectorType|SpawnPoint){
     return new Promise((resolve, reject) => {
-      const spawnPoint = this.randomSpawnPoint(spawnPointFilter)
-      
-      if(!spawnPoint){
-        log(this.name+".movePlayerHere no spawnPoints. not moving player",this.spawnPoints)
-        resolve()
-        return
+      //log("(spawnPointFilter as POISelectorType).type",(spawnPointFilter as POISelectorType).type,spawnPointFilter)
+
+      let position:Vector3
+      let cameraLook:Vector3|undefined = undefined
+      if((spawnPointFilter !== undefined && (spawnPointFilter as POISelectorType).type)){
+        const spawnPoint = this.randomSpawnPoint(spawnPointFilter as POISelectorType)
+ 
+        if(!spawnPoint || spawnPoint === undefined || spawnPoint.position === undefined){
+          log(this.name+".movePlayerHere no spawnPoints. not moving player",this.spawnPoints)
+          resolve()
+          return
+        }
+        position = spawnPoint.position.toCenterVector3()
+        cameraLook = spawnPoint.cameraLookAt
+      }else if(spawnPointFilter !== undefined && spawnPointFilter instanceof SpawnPoint){
+        if(spawnPointFilter.position === undefined){
+          log(this.name+".movePlayerHere no spawnPoints. not moving player",this.spawnPoints)
+          resolve()
+          return
+        }
+        position = spawnPointFilter.position.toCenterVector3()
+        cameraLook = spawnPointFilter.cameraLookAt
+      }else{
+        log(this.name+".movePlayerHere type not recognized spawnPointFilter. not moving player",spawnPointFilter)
+          resolve()
+          return
       }
-      movePlayerTo(spawnPoint.position.toCenterVector3()).then(
+
+      movePlayerTo(position,cameraLook).then(
         ()=>{
-          log("player move to scene " ,this.name , "@",spawnPoint.position, " complete")
+          log("player move to scene " ,this.name , "@",position, " complete")
           resolve()
         }
       ).catch(
         (reason:any)=>{
-          log("player move to scene " ,this.name , "@",spawnPoint.position, " FAILED",reason)
+          log("player move to scene " ,this.name , "@",position, " FAILED",reason)
           reject(reason)
         }
       )
@@ -367,7 +427,7 @@ export class SubScene extends BaseEntityWrapper{
   
   
   onHide(scene:SubScene){
-    log("subscene.onHide",this.id)
+    log("subscene.onHide",this.id,this.name)
     super.onHide(scene)
 
     this.entities.forEach((entity) => {
@@ -388,6 +448,57 @@ export class SubScene extends BaseEntityWrapper{
 
     this.entities.forEach((entity) => {
       entity.show()
+    })
+  }
+}
+
+
+export class SubSceneGroup extends SubScene{
+  //public id: number
+  public scenes:SubScene[]=[]
+
+  disable(){
+    super.disable()
+    this.scenes.forEach((scene) => {
+      scene.disable()
+    })
+  }
+
+  enable(){
+    super.enable()
+    this.scenes.forEach((scene) => {
+      log("SubSceneGroup.enable",scene.name)
+      scene.enable()
+    })
+  }
+
+
+  init(){
+    const val = super.init()
+    this.scenes.forEach((scene) => {
+      scene.init()
+    })
+    return val
+  }
+
+
+  onHide(scene:SubScene){
+    log("SubSceneGroup.onHide",this.id,this.name)
+    super.onHide(scene)
+
+    this.scenes.forEach((scene) => {
+      scene.hide()
+    })
+
+  }
+  onShow(scene:SubScene){
+    log("SubSceneGroup.onShow",this.entities,this.id)
+    
+    super.onShow(scene);
+
+    this.scenes.forEach((scenes) => {
+      scenes.show()
+      
     })
   }
 }
