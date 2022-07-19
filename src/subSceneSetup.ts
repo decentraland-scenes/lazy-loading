@@ -16,14 +16,14 @@ const galleryGroup2 = createScene2()
 const galleryGroup3 = createScene3()
 
 
+galleryGroup1.enable()
+galleryGroup1.hide()
+SCENE_MGR.changeToScene(galleryGroup1)
 
-SCENE_MGR.changeToScene(galleryGroup3)
-  
-
-let toggleCnter = 0
+let toggleCnter = 1
 
 const toggleEnt = new Entity()
-engine.addEntity(toggleEnt)
+engine.addEntity(toggleEnt) 
 toggleEnt.addComponent(new BoxShape())
 toggleEnt.addComponent(new Transform(
   {position:new Vector3(8,1,16)}
@@ -54,7 +54,7 @@ toggleEnt.addComponent(new OnPointerDown(()=>{
   //SCENE_MGR.changeToScene(galleryGroup2)
   
 },{
-  hoverText:"Show Group 1"
+  hoverText:"Show Group 2"
 }))
 
 for (const nft of nftCollection) {
@@ -97,7 +97,7 @@ for (const nft of nftCollection) {
         log("painting.hidden ",nft.id)
         //engine.addEntity(painting)
       })
-      sceneEnt.visibilityStrategy = VisibilityStrategyEnum.ENGINE_ADD_REMOVE
+      //sceneEnt.visibilityStrategy = VisibilityStrategyEnum.ENGINE_ADD_REMOVE
     })
   }else{
     log("could not find scene",nft.room)
