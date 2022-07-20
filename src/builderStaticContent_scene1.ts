@@ -187,9 +187,7 @@ export function createScene1(){
 
   const galleryGroup1Base_ID = SCENE_MGR.generateSceneId()
   const galleryGroupBase1 = new SubScene(galleryGroup1Base_ID,"sceneGroupBase1",[],undefined,undefined)
-  galleryGroupBase1.rootEntity = _scene1
   galleryGroupBase1.addEntity(_scene1) 
-  //galleryGroupBase1.visibilityStrategy = VisibilityStrategyEnum.ENGINE_ADD_REMOVE
   SCENE_MGR.addScene(galleryGroupBase1)
 
   

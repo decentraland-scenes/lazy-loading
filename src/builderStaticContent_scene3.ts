@@ -1,5 +1,5 @@
 import { SCENE_MGR } from "./globals"
-import { SubScene } from "./modules/sceneMgmt/subScene"
+import { SubScene, VisibilityStrategyEnum } from "./modules/sceneMgmt/subScene"
 import { createDispenser } from "./museum_template/booth/dispenser"
 import { addElevator } from "./museum_template/modules/elevator"
 import { addLogo } from "./museum_template/modules/logo"
@@ -75,8 +75,10 @@ export function createScene3(){
 
   const galleryGroup3Base_ID = SCENE_MGR.generateSceneId()
   const galleryGroupBase3 = new SubScene(galleryGroup3Base_ID,"sceneGroupBase3",[],undefined,undefined)
-  galleryGroupBase3.addEntity(_scene3)
-  //galleryGroupBase3.visibilityStrategy = VisibilityStrategyEnum.ENGINE_ADD_REMOVE
+
+  const sceneEntity = galleryGroupBase3.addEntity(_scene3) 
+  sceneEntity.visibilityStrategy = VisibilityStrategyEnum.ENGINE_ADD_REMOVE
+
   SCENE_MGR.addScene(galleryGroupBase3)
 
 

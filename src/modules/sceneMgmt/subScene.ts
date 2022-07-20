@@ -48,8 +48,12 @@ export type EntityActionListener=((entityWrap:BaseEntityWrapper)=>void)
 export class BaseEntityWrapper{
   name:string 
   visible:boolean=true
+
+  //even though this object holds no entities directly, it is good to know the intent
+  //for visiblity should it override the listeners onHide / onShow for how to react
   visibilityStrategy:VisibilityStrategyEnum = VisibilityStrategyEnum.SHAPE_SHOW_HIDE
   visibleTransformInfo?:Transform //if vault hide/showing
+
   initAlready:boolean=false
 
   onInitListener:EntityActionListener[] = [] //(scene:SubScene)=>void = []
@@ -195,8 +199,8 @@ export class EntityWrapper extends BaseEntityWrapper{
       this.entities = []
     }
 
-    if(args && args.visibilityStrategy) this.visibilityStrategy = args.visibilityStrategy 
-    if(args && args.onInit) this.onInit = args.onInit 
+    //if(args && args.visibilityStrategy) this.visibilityStrategy = args.visibilityStrategy 
+    //if(args && args.onInit) this.onInit = args.onInit 
   }
 
   addEntity(entity:Entity){
@@ -237,7 +241,7 @@ export class EntityWrapper extends BaseEntityWrapper{
   private showEntity(entity:Entity,child:boolean){
     if(!entity) return
 
-    
+    log("EntityWrapper","showEntity called for ",entity.name,this.visibilityStrategy)    
 
     if( this.visibilityStrategy == VisibilityStrategyEnum.SHAPE_SHOW_HIDE){
       if (entity.hasComponent('engine.shape')) {
@@ -258,8 +262,11 @@ export class EntityWrapper extends BaseEntityWrapper{
   private hideEntity(entity:Entity,child:boolean){
     if(!entity) return
 
-    if( this.visibilityStrategy == VisibilityStrategyEnum.SHAPE_SHOW_HIDE){
-      
+    
+    const hideShow = this.visibilityStrategy == VisibilityStrategyEnum.SHAPE_SHOW_HIDE
+    //log("EntityWrapper","hideEntity called for ",entity.name,"hideShow",hideShow)
+ 
+    if( hideShow ){
       if (entity.hasComponent('engine.shape')) {
         log("XXXX hiding",this.name)
         log("EntityWrapper","hideEntity.visible ",entity.name)
@@ -275,6 +282,7 @@ export class EntityWrapper extends BaseEntityWrapper{
         }
       }
     }else{
+      log("EntityWrapper","hideEntity remove from engine check ",entity.name,entity.alive)
       if (entity && entity.alive) {
         log("EntityWrapper","hideEntity.removing ",entity.name)
         engine.removeEntity(entity)
