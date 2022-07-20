@@ -34,6 +34,71 @@ Any dependencies are installed and then the CLI will open the scene in a new bro
 
 Learn more about how to build your own scenes in our [documentation](https://docs.decentraland.org/) site.
 
+
+## Hide / Show Options
+
+When you wrap an SDK Entity in a EntityWrapper class and put it into a SubScene when SubScene init(), hide(), show() is called you can choose if that entity is removed from the engine or just hidden with a `visibilityStrategy` flag.
+
+```
+sceneEntity.visibilityStrategy = VisibilityStrategyEnum.ENGINE_ADD_REMOVE
+OR
+sceneEntity.visibilityStrategy = VisibilityStrategyEnum.SHAPE_SHOW_HIDE
+```
+
+You also can choose to implement listeners to react to hiding and showing of the entity.   From here you can fully customize the life cycle of the object from a init, show and hide perspective.  For example could choose to lazy load the entity when the scene itself is init.
+
+```
+sceneEnt.addOnInitListener((entityWrap)=>{
+  //do something special
+})
+sceneEnt.addOnShowListener((entityWrap)=>{
+  //do something special
+}) 
+sceneEnt.addOnHideListener((entityWrap)=>{
+  //do something special
+})
+```
+
+
+
+## Usage of Scene Manager
+
+see `/src/subSceneSetup.ts` for an exampe of how to use Scene Manager with SubScenes
+
+```
+SCENE_MGR = new SceneManager(); 
+
+//make scene1
+const mySceneEntity = new Entity()
+mySceneEntity.addComponent(new BoxShape())
+
+const sceneId = SCENE_MGR.generateSceneId()
+const subScene = new SubScene(sceneId,"myScene",[],undefined,undefined)
+
+const sceneEntity = subScene.addEntity(mySceneEntity) 
+sceneEntity.visibilityStrategy = VisibilityStrategyEnum.ENGINE_ADD_REMOVE
+
+SCENE_MGR.addScene(subScene)
+
+//make scene2
+const mySceneEntity2 = new Entity()
+mySceneEntity2.addComponent(new ConeShape())
+
+const sceneId2 = SCENE_MGR.generateSceneId()
+const subScene2 = new SubScene(sceneId2,"myScene2",[],undefined,undefined)
+
+const sceneEntity2 = subScene2.addEntity(mySceneEntity2) 
+sceneEntity2.visibilityStrategy = VisibilityStrategyEnum.ENGINE_ADD_REMOVE
+
+SCENE_MGR.addScene(subScene2)
+
+
+...
+
+SCENE_MGR.changeToScene(subScene) //change to desired scene
+
+```
+
 ## Class Diagram
 
 

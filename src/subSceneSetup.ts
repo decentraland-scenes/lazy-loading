@@ -22,6 +22,17 @@ SCENE_MGR.changeToScene(galleryGroup1)
 
 let toggleCnter = 1
 
+
+const toggleEntText = new Entity()
+const toggleTextShape = new TextShape("Change To\nScene 2")
+toggleTextShape.fontSize = 2
+toggleEntText.addComponent(toggleTextShape)
+toggleEntText.addComponent(new Transform(
+  {position:new Vector3(8,2,16)}
+)) 
+toggleEntText.addComponent(new Billboard())
+engine.addEntity(toggleEntText) 
+
 const toggleEnt = new Entity()
 engine.addEntity(toggleEnt) 
 toggleEnt.addComponent(new BoxShape())
@@ -34,15 +45,21 @@ toggleEnt.addComponent(new OnPointerDown(()=>{
     case 0:
       SCENE_MGR.changeToScene(galleryGroup1)
       
-      toggleEnt.getComponent(OnPointerDown).hoverText = "Show Group 2"
+      toggleTextShape.value = "Change To\nScene 2"
+      toggleEnt.getComponent(OnPointerDown).hoverText = toggleTextShape.value
       break;
     case 1:
       SCENE_MGR.changeToScene(galleryGroup2)
-      toggleEnt.getComponent(OnPointerDown).hoverText = "Show Group 3"
+
+      toggleTextShape.value = "Change To\nScene 3"
+      toggleEnt.getComponent(OnPointerDown).hoverText = toggleTextShape.value
       break;
     case 2:
       SCENE_MGR.changeToScene(galleryGroup3)
-      toggleEnt.getComponent(OnPointerDown).hoverText = "Show Group 1"
+
+      toggleTextShape.value = "Change To\nScene 1"
+      toggleEnt.getComponent(OnPointerDown).hoverText = toggleTextShape.value
+      
       break;
   }
 
@@ -54,7 +71,7 @@ toggleEnt.addComponent(new OnPointerDown(()=>{
   //SCENE_MGR.changeToScene(galleryGroup2)
   
 },{
-  hoverText:"Show Group 2"
+  hoverText: toggleTextShape.value
 }))
 
 for (const nft of nftCollection) {
@@ -92,12 +109,12 @@ for (const nft of nftCollection) {
       sceneEnt.addOnShowListener((entityWrap)=>{
         log("painting.showed ",nft.id)
         //engine.addEntity(painting)
-      })
+      }) 
       sceneEnt.addOnHideListener((entityWrap)=>{
         log("painting.hidden ",nft.id)
         //engine.addEntity(painting)
       })
-      //sceneEnt.visibilityStrategy = VisibilityStrategyEnum.ENGINE_ADD_REMOVE
+      sceneEnt.visibilityStrategy = VisibilityStrategyEnum.ENGINE_ADD_REMOVE
     })
   }else{
     log("could not find scene",nft.room)
