@@ -34,6 +34,111 @@ Any dependencies are installed and then the CLI will open the scene in a new bro
 
 Learn more about how to build your own scenes in our [documentation](https://docs.decentraland.org/) site.
 
+## Class Diagram
+
+
+```mermaid
+classDiagram
+
+
+SceneManager "*" o-- "1" SubScene : Manages SubScenes
+SubScene "*" o-- "1" SceneEntity : Manages the scene entities
+EntityWrapper "*" o-- "1" Entity : Manages the entity in unity
+SceneEntity --|> EntityWrapper: extends
+SubSceneGroup --|> SubScene: extends
+SubScene --|> BaseEntityWrapper: extends
+
+
+class SceneManager{
+  scenes:SubScene[] = [] 
+  generateSceneId():number
+  getSceneById(id:number):SubScene|null
+  addScene(scene:SubScene|SceneInitData):SubScene
+  changeToScene(scene:SubScene)
+  initScenes()
+  hideScenes()
+}
+
+class BaseEntityWrapper{
+  name:string 
+  visible:boolean=true
+  visibilityStrategy:VisibilityStrategyEnum = VisibilityStrategyEnum.SHAPE_SHOW_HIDE
+  visibleTransformInfo?:Transform //if vault hide/showing
+  initAlready:boolean=false
+
+  onInitListener:EntityActionListener[] = [] //(scene:SubScene)=>void = []
+  onShowListener:EntityActionListener[] = []
+  onHideListener:EntityActionListener[] = []
+
+  enabled:boolean=true
+  
+  disable()
+  enable()
+  init()
+   
+  onChangeEntityVisibility(entity:BaseEntityWrapper,type:VisibleChangeType)
+  
+
+  isVisible()
+
+
+  onHide(baseEntWrapper:BaseEntityWrapper)
+  onShow(baseEntWrapper:BaseEntityWrapper)
+  onInit(baseEntWrapper:BaseEntityWrapper)
+  processListener(sceneEnt:BaseEntityWrapper,listeners:((sceneEnt:BaseEntityWrapper)=>void)[] )
+  show(force?:boolean) 
+  hide(force?:boolean) 
+  addOnInitListener(listener:EntityActionListener)
+  addOnShowListener(listener:EntityActionListener)
+  addOnHideListener(listener:EntityActionListener)
+}
+class EntityWrapper{
+  rootEntity:Entity
+  entities:Entity[]
+  addEntity(entity:Entity)
+  onShow()
+  onHide()
+}
+
+class SceneEntity{
+  
+}
+
+class SubScene {
+  public rootEntity?: Entity 
+  public triggerEntity: Entity
+  public initAlready:boolean = false
+  public entities: SceneEntity[]
+  public id: number
+  public spawnPoints:SpawnPoint[]=[]
+  
+ 
+  addEntity(sceneEnt:SceneEntity|Entity,args?:SceneEntityArgs):SceneEntity
+  onInit(sceneEnt:SubScene)
+
+  randomSpawnPoint(spawnPointFilter?:POISelectorType):SpawnPoint
+
+  movePlayerHere(spawnPointFilter?:POISelectorType|SpawnPoint)
+  
+  
+  onHide(scene:SubScene)
+  onShow(scene:SubScene)
+}
+
+
+class SubSceneGroup{
+  public scenes:SubScene[]=[]
+
+  disable()
+  enable()
+  init()
+
+  onHide(scene:SubScene)
+  onShow(scene:SubScene)
+}
+
+```
+
 ## Copyright info
 
 This scene is protected with a standard Apache 2 licence. See the terms and conditions in the [LICENSE](/LICENSE) file.
