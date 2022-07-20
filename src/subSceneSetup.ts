@@ -6,6 +6,7 @@ import { createScene1 } from './builderStaticContent_scene1';
 import { createScene2 } from './builderStaticContent_scene2';
 import { createScene3 } from './builderStaticContent_scene3';
 import { SCENE_MGR } from './globals';
+import { createScene4 } from './builderStaticContent_scene4';
 
 
 
@@ -14,6 +15,7 @@ const galleryGroup1 = createScene1()
 //const _scene1 = loadStaticScene1()
 const galleryGroup2 = createScene2()
 const galleryGroup3 = createScene3()
+const galleryGroup4 = createScene4()
 
 
 galleryGroup1.enable()
@@ -21,6 +23,7 @@ galleryGroup1.hide()
 SCENE_MGR.changeToScene(galleryGroup1)
 
 let toggleCnter = 1
+
 
 
 const toggleEntText = new Entity()
@@ -63,14 +66,23 @@ toggleEnt.addComponent(new OnPointerDown(()=>{
     case 2:
       SCENE_MGR.changeToScene(galleryGroup3)
 
+      toggleTextShape.value = "Change To\nScene 4"
+      toggleEnt.getComponent(OnPointerDown).hoverText = toggleTextShape.value
+      
+      break;
+    case 3:
+      SCENE_MGR.changeToScene(galleryGroup4)
+      galleryGroup4.movePlayerHere()
+
       toggleTextShape.value = "Change To\nScene 1"
       toggleEnt.getComponent(OnPointerDown).hoverText = toggleTextShape.value
       
       break;
+      
   }
 
   toggleCnter++
-  if(toggleCnter >= 3){
+  if(toggleCnter >= 4){
     toggleCnter = 0
   }
   //debugger

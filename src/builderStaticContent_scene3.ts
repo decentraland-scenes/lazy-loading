@@ -1,5 +1,6 @@
 import { SCENE_MGR } from "./globals"
 import { SubScene, VisibilityStrategyEnum } from "./modules/sceneMgmt/subScene"
+import { SceneVector3Type, SpawnPoint } from "./modules/sceneMgmt/types"
 import { createDispenser } from "./museum_template/booth/dispenser"
 import { addElevator } from "./museum_template/modules/elevator"
 import { addLogo } from "./museum_template/modules/logo"

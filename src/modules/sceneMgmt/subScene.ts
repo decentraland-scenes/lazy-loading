@@ -395,7 +395,7 @@ export class SubScene extends BaseEntityWrapper{
 
       let position:Vector3
       let cameraLook:Vector3|undefined = undefined
-      if((spawnPointFilter !== undefined && (spawnPointFilter as POISelectorType).type)){
+      if((spawnPointFilter === undefined || (spawnPointFilter as POISelectorType).type)){
         const spawnPoint = this.randomSpawnPoint(spawnPointFilter as POISelectorType)
  
         if(!spawnPoint || spawnPoint === undefined || spawnPoint.position === undefined){
