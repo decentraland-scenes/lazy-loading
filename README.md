@@ -43,6 +43,7 @@ classDiagram
 
 SceneManager "*" o-- "1" SubScene : Manages SubScenes
 SubScene "*" o-- "1" SceneEntity : Manages the scene entities
+SubScene "*" --o "1" SubSceneGroup : Groups a collection of subscenes
 EntityWrapper "*" o-- "1" Entity : Manages the entity in unity
 SceneEntity --|> EntityWrapper: extends
 SubSceneGroup --|> SubScene: extends
