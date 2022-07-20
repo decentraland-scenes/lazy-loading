@@ -35,9 +35,15 @@ engine.addEntity(toggleEntText)
 
 const toggleEnt = new Entity()
 engine.addEntity(toggleEnt) 
-toggleEnt.addComponent(new BoxShape())
+toggleEnt.addComponent(new GLTFShape('models/KeyboardSciFi_01/KeyboardSciFi_01.glb'))
+//toggleEnt.addComponent(new BoxShape())
 toggleEnt.addComponent(new Transform(
-  {position:new Vector3(8,1,16)}
+  {
+    position:new Vector3(8,0,16),
+    scale:new Vector3(1.2,1.2,1.2),
+    rotation: Quaternion.Euler(0,270,0)
+  }
+  
 )) 
 toggleEnt.addComponent(new OnPointerDown(()=>{
   
@@ -106,6 +112,12 @@ for (const nft of nftCollection) {
       }) 
       sceneEnt.visible = scene.visible
       sceneEnt.enabled = scene.enabled
+
+
+      sceneEnt.addOnInitListener((entityWrap)=>{
+        log("painting.hidden ",nft.id)
+        //engine.addEntity(painting)
+      })
       sceneEnt.addOnShowListener((entityWrap)=>{
         log("painting.showed ",nft.id)
         //engine.addEntity(painting)
@@ -114,6 +126,7 @@ for (const nft of nftCollection) {
         log("painting.hidden ",nft.id)
         //engine.addEntity(painting)
       })
+      
       sceneEnt.visibilityStrategy = VisibilityStrategyEnum.ENGINE_ADD_REMOVE
     })
   }else{
