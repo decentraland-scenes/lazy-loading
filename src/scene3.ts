@@ -1,5 +1,5 @@
-import { SCENE_MGR } from "./globals"
-import { SubScene, VisibilityStrategyEnum } from "./modules/sceneMgmt/subScene"
+import { SCENE_MGR, ROOT_SCENE_VISIBILITY_STRATEGY, ROOT_SCENE_ADD_TO_ENGINE_ON_SCENE_LOAD } from "./globals"
+import { BaseEntityWrapper, SubScene, VisibilityStrategyEnum } from "./modules/sceneMgmt/subScene"
 import { SceneVector3Type, SpawnPoint } from "./modules/sceneMgmt/types"
 import { createDispenser } from "./museum_template/booth/dispenser"
 import { addElevator } from "./museum_template/modules/elevator"
@@ -10,10 +10,10 @@ import { addSocialLink } from "./museum_template/modules/socialLink"
 import { addVideoScreen } from "./museum_template/modules/videoScreen"
 
 
-export function loadStaticScene3(){
+ function createScene(){
     
   const _scene3 = new Entity('_scene3')
-  engine.addEntity(_scene3)
+  if(ROOT_SCENE_ADD_TO_ENGINE_ON_SCENE_LOAD) engine.addEntity(_scene3)
   const transformScene3 = new Transform({
     position: new Vector3(0, 0, 0),
     rotation: new Quaternion(0, 0, 0, 1),
@@ -71,14 +71,18 @@ export function loadStaticScene3(){
 }
 
 export function createScene3(){
-  const _scene3 = loadStaticScene3()
+  const _scene3 = createScene()
  
 
   const galleryGroup3Base_ID = SCENE_MGR.generateSceneId()
   const galleryGroupBase3 = new SubScene(galleryGroup3Base_ID,"sceneGroupBase3",[],undefined,undefined)
 
   const sceneEntity = galleryGroupBase3.addEntity(_scene3) 
-  sceneEntity.visibilityStrategy = VisibilityStrategyEnum.ENGINE_ADD_REMOVE
+  sceneEntity.visibilityStrategy = ROOT_SCENE_VISIBILITY_STRATEGY
+
+  sceneEntity.addOnInitListener( (entityWrap:BaseEntityWrapper)=>{
+    if(!sceneEntity.rootEntity.alive) engine.addEntity( sceneEntity.rootEntity )
+  } )
 
   SCENE_MGR.addScene(galleryGroupBase3)
 

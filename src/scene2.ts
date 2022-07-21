@@ -1,12 +1,12 @@
-import { SCENE_MGR } from "./globals"
-import { SubScene, SubSceneGroup } from "./modules/sceneMgmt/subScene"
+import { SCENE_MGR, ROOT_SCENE_VISIBILITY_STRATEGY, ROOT_SCENE_ADD_TO_ENGINE_ON_SCENE_LOAD } from "./globals"
+import { BaseEntityWrapper, SubScene, SubSceneGroup, VisibilityStrategyEnum } from "./modules/sceneMgmt/subScene"
 import { createSubScene } from "./utils"
 
 
-export function loadStaticScene2(){
+ function createScene(){
 
   const _scene2 = new Entity('_scene2')
-  engine.addEntity(_scene2)
+  if(ROOT_SCENE_ADD_TO_ENGINE_ON_SCENE_LOAD) engine.addEntity(_scene2)
   const transformScene2 = new Transform({
     position: new Vector3(0, 0, 0),
     rotation: new Quaternion(0, 0, 0, 1),
@@ -155,7 +155,7 @@ export function loadStaticScene2(){
 
 export function createScene2(){
 
-  const _scene2 = loadStaticScene2()
+  const _scene2 = createScene()
 
   const gallery7 = createSubScene( 
     7,
@@ -171,10 +171,14 @@ export function createScene2(){
 
   const galleryGroup2Base_ID = SCENE_MGR.generateSceneId()
   const galleryGroupBase2 = new SubScene(galleryGroup2Base_ID,"sceneGroupBase2",[],undefined,undefined)
-  galleryGroupBase2.addEntity(_scene2)
-  //galleryGroupBase2.visibilityStrategy = VisibilityStrategyEnum.ENGINE_ADD_REMOVE
+  const sceneEntity = galleryGroupBase2.addEntity(_scene2)
+  galleryGroupBase2.visibilityStrategy = ROOT_SCENE_VISIBILITY_STRATEGY
+  
   SCENE_MGR.addScene(galleryGroupBase2)
 
+  sceneEntity.addOnInitListener( (entityWrap:BaseEntityWrapper)=>{
+    if(!sceneEntity.rootEntity.alive) engine.addEntity( sceneEntity.rootEntity )
+  } )
 
   const galleryGroup2_ID = SCENE_MGR.generateSceneId()
   const galleryGroup2 = new SubSceneGroup(galleryGroup2_ID,"sceneGroup2",[],undefined,undefined)

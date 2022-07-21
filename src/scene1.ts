@@ -1,12 +1,13 @@
-import { loadStaticScene2 } from "./builderStaticContent_scene2"
-import { SCENE_MGR } from "./globals"
-import { SubScene, SubSceneGroup } from "./modules/sceneMgmt/subScene"
+
+import { ROOT_SCENE_ADD_TO_ENGINE_ON_SCENE_LOAD, ROOT_SCENE_VISIBILITY_STRATEGY, SCENE_MGR } from "./globals"
+import { BaseEntityWrapper, SubScene, SubSceneGroup, VisibilityStrategyEnum } from "./modules/sceneMgmt/subScene"
+import { RotatorSystemComponent } from "./rotatorSystem"
 import { createSubScene } from "./utils"
 
-export function loadStaticScene1(){
+ function createScene(){
 
   const _scene1 = new Entity('_scene1')
-  engine.addEntity(_scene1)
+  if(ROOT_SCENE_ADD_TO_ENGINE_ON_SCENE_LOAD) engine.addEntity(_scene1)
   const transformScene1 = new Transform({
     position: new Vector3(0, 0, 0),
     rotation: new Quaternion(0, 0, 0, 1),
@@ -105,7 +106,16 @@ export function loadStaticScene1(){
   shopBlack6.addComponentOrReplace(transform11)
 
 
-
+  //adding these here to show why the filtering is needed
+  //and why you want the system off when not visible
+  /*
+  shopBlack.addComponent(new RotatorSystemComponent())
+  shopBlack2.addComponent(new RotatorSystemComponent())
+  shopBlack3.addComponent(new RotatorSystemComponent())
+  shopBlack4.addComponent(new RotatorSystemComponent())
+  shopBlack5.addComponent(new RotatorSystemComponent())
+  shopBlack6.addComponent(new RotatorSystemComponent())
+  */
 
   return _scene1
 
@@ -115,7 +125,7 @@ const shopBlack = new GLTFShape('models/Shop_Black.glb')
 
 export function createScene1(){
 
-  const _scene1 = loadStaticScene1()
+  const _scene1 = createScene()
   // create subScenes
   const gallery1 = createSubScene(
     1,
@@ -187,7 +197,16 @@ export function createScene1(){
 
   const galleryGroup1Base_ID = SCENE_MGR.generateSceneId()
   const galleryGroupBase1 = new SubScene(galleryGroup1Base_ID,"sceneGroupBase1",[],undefined,undefined)
-  galleryGroupBase1.addEntity(_scene1) 
+  const sceneEntity = galleryGroupBase1.addEntity(_scene1) 
+  sceneEntity.visibilityStrategy = ROOT_SCENE_VISIBILITY_STRATEGY
+
+  sceneEntity.addOnInitListener( (entityWrap:BaseEntityWrapper)=>{
+    if(!sceneEntity.rootEntity.alive) engine.addEntity( sceneEntity.rootEntity )
+  } )
+
+  galleryGroupBase1.enable()
+  galleryGroupBase1.hide()
+  
   SCENE_MGR.addScene(galleryGroupBase1)
 
   

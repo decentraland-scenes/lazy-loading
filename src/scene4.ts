@@ -1,5 +1,5 @@
-import { SCENE_MGR } from "./globals"
-import { SubScene, VisibilityStrategyEnum } from "./modules/sceneMgmt/subScene"
+import { SCENE_MGR, ROOT_SCENE_VISIBILITY_STRATEGY, ROOT_SCENE_ADD_TO_ENGINE_ON_SCENE_LOAD, INVISIBLE_MATERIAL } from "./globals"
+import { BaseEntityWrapper, SubScene, VisibilityStrategyEnum } from "./modules/sceneMgmt/subScene"
 import { SceneVector3Type, SpawnPoint } from "./modules/sceneMgmt/types"
 import { createDispenser } from "./museum_template/booth/dispenser"
 import { addElevator } from "./museum_template/modules/elevator"
@@ -10,10 +10,10 @@ import { addSocialLink } from "./museum_template/modules/socialLink"
 import { addVideoScreen } from "./museum_template/modules/videoScreen"
 
 
-export function loadStaticScene4(){
+ function createScene(){
     
   const _scene4 = new Entity('_scene4')
-  engine.addEntity(_scene4)
+  if(ROOT_SCENE_ADD_TO_ENGINE_ON_SCENE_LOAD) engine.addEntity(_scene4)
   const transformScene3 = new Transform({
     position: new Vector3(0, 0, 0),
     rotation: new Quaternion(0, 0, 0, 1),
@@ -40,6 +40,29 @@ export function loadStaticScene4(){
   }))
 
 
+  const toggleEntText2 = new Entity()
+  toggleEntText2.setParent(pivotScene)
+  const toggleTextShape2 = new TextShape("Return to ground to switch scenes")
+  toggleTextShape2.fontSize = 2
+  toggleEntText2.addComponent(toggleTextShape2)
+  toggleEntText2.addComponent(new Transform(
+    {position:new Vector3(0,10,0)}
+  )) 
+  toggleEntText2.addComponent(new Billboard())
+  //engine.addEntity(toggleEntText) 
+
+  
+  //must put an invisible cube below it incase add to engine was used. if it takes time we need it to land on something
+  const platformInivisibleFloor = new Entity()
+  platformInivisibleFloor.setParent(pivotScene)
+  platformInivisibleFloor.addComponent(new BoxShape)
+  platformInivisibleFloor.addComponent(INVISIBLE_MATERIAL)
+  platformInivisibleFloor.addComponentOrReplace( new Transform({
+    position: new Vector3(0, 8+.5, 0),
+    rotation: new Quaternion(0, 0, 0, 1),
+    scale: new Vector3(8, 1, 8)
+  }))
+
 
   const toggleEntText = new Entity()
   toggleEntText.setParent(_scene4)
@@ -50,13 +73,13 @@ export function loadStaticScene4(){
     {position:new Vector3(8,2,16-2)}
   )) 
   toggleEntText.addComponent(new Billboard())
-  engine.addEntity(toggleEntText) 
+  //engine.addEntity(toggleEntText) 
 
   return _scene4
 }
  
 export function createScene4(){
-  const _scene4 = loadStaticScene4()
+  const _scene4 = createScene()
  
 
   const galleryGroup4Base_ID = SCENE_MGR.generateSceneId()
@@ -70,14 +93,19 @@ export function createScene4(){
   )
 
   const sceneEntity = galleryGroupBase4.addEntity(_scene4) 
-  sceneEntity.visibilityStrategy = VisibilityStrategyEnum.ENGINE_ADD_REMOVE
+  sceneEntity.visibilityStrategy = ROOT_SCENE_VISIBILITY_STRATEGY
+
+  sceneEntity.addOnInitListener( (entityWrap:BaseEntityWrapper)=>{
+    if(!sceneEntity.rootEntity.alive) engine.addEntity( sceneEntity.rootEntity )
+  } )
+
 
   SCENE_MGR.addScene(galleryGroupBase4)
 
 
   const toggleEnt = new Entity()
   toggleEnt.setParent(_scene4)
-  engine.addEntity(toggleEnt) 
+  //engine.addEntity(toggleEnt) 
   toggleEnt.addComponent(new GLTFShape('models/KeyboardSciFi_01/KeyboardSciFi_01.glb'))
   //toggleEnt.addComponent(new BoxShape())
   toggleEnt.addComponent(new Transform(

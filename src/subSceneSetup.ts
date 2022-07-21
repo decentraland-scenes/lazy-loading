@@ -2,11 +2,12 @@ import * as utils from '@dcl/ecs-scene-utils'
 import { nftCollection, createPainting } from './nfts'
 import { SceneInitData, SceneManager } from './modules/sceneMgmt/sceneManager';
 import { BaseEntityWrapper, SceneEntity, SubScene, SubSceneGroup, VisibilityStrategyEnum } from './modules/sceneMgmt/subScene'
-import { createScene1 } from './builderStaticContent_scene1';
-import { createScene2 } from './builderStaticContent_scene2';
-import { createScene3 } from './builderStaticContent_scene3';
+import { createScene1 } from './scene1';
+import { createScene2 } from './scene2';
+import { createScene3 } from './scene3';
 import { SCENE_MGR } from './globals';
-import { createScene4 } from './builderStaticContent_scene4';
+import { createScene4 } from './scene4';
+import { createScene5 } from './scene5';
 
 
 
@@ -16,6 +17,7 @@ const galleryGroup1 = createScene1()
 const galleryGroup2 = createScene2()
 const galleryGroup3 = createScene3()
 const galleryGroup4 = createScene4()
+const galleryGroup5 = createScene5()
 
 
 galleryGroup1.enable()
@@ -71,18 +73,34 @@ toggleEnt.addComponent(new OnPointerDown(()=>{
       
       break;
     case 3:
-      SCENE_MGR.changeToScene(galleryGroup4)
-      galleryGroup4.movePlayerHere()
+        SCENE_MGR.changeToScene(galleryGroup4)
+        galleryGroup4.movePlayerHere()
+  
+        toggleTextShape.value = "Change To\nScene 5"
+        toggleEnt.getComponent(OnPointerDown).hoverText = toggleTextShape.value
+        
+        break;
+      
+    case 4:
+      SCENE_MGR.changeToScene(galleryGroup5)
+
+      toggleTextShape.value = "Change To\nEmpty Scene "
+      toggleEnt.getComponent(OnPointerDown).hoverText = toggleTextShape.value
+      
+      break;
+    case 5:
+      SCENE_MGR.hideScenes()
+      //galleryGroup4.movePlayerHere()
 
       toggleTextShape.value = "Change To\nScene 1"
       toggleEnt.getComponent(OnPointerDown).hoverText = toggleTextShape.value
       
       break;
-      
+        
   }
 
   toggleCnter++
-  if(toggleCnter >= 4){
+  if(toggleCnter >= 6){
     toggleCnter = 0
   }
   //debugger
