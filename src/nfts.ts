@@ -204,17 +204,53 @@ export const nftCollection: NFTdata[] = [
     },
     contract: '0xc1f4b0eea2bd6690930e6c66efd3e197d620b9c2',
     tokenId: '8'
+  },
+  //start krypto kitties
+  
+  {
+    room: 7,
+    id: 16,
+    position: {
+      position: new Vector3(4 + 22, 2, 22 - 18),
+      rotation: Quaternion.Euler(0, 180, 0),
+      scale: new Vector3(2.5, 2.5, 2.5)
+    },
+    contract: '0x06012c8cf97bead5deae237070f9587f8e7a266d',
+    tokenId: '1631847'
+  },
+  {
+    room: 7,
+    id: 17,
+    position: {
+      position: new Vector3(1.7 + 22, 2, 26 - 18),
+      rotation: Quaternion.Euler(0, -90, 0),
+      scale: new Vector3(2.5, 2.5, 2.5)
+    },
+    contract: '0x06012c8cf97bead5deae237070f9587f8e7a266d',
+    tokenId: '1681447'
+  },
+  {
+    room: 7,
+    id: 18,
+    position: {
+      position: new Vector3(6.3 + 22, 2, 26 - 18),
+      rotation: Quaternion.Euler(0, 90, 0),
+      scale: new Vector3(2.5, 2.5, 2.5)
+    },
+    contract: '0x06012c8cf97bead5deae237070f9587f8e7a266d',
+    tokenId: '1681847'
   }
 ]
 
 export function createPainting(
+  parent:Entity|undefined,
   id: number,
   position: TransformConstructorArgs,
   contract: string,
   tokenId: string
 ) {
   const address: string = 'ethereum://' + contract + '/' + tokenId
-  const entity = new Entity()
+  const entity = new Entity("painting."+id+"."+contract+"."+tokenId)
 
   const nftShape = new NFTShape(address, {
     style: PictureFrameStyle.Gold_Edges
@@ -223,6 +259,7 @@ export function createPainting(
   entity.addComponent(new Transform(position))
   entity.addComponent(nftShape)
 
-  engine.addEntity(entity)
+  if(parent !== undefined) entity.setParent(parent)
+  //engine.addEntity(entity)
   return entity
 }

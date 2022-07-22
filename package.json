@@ -17,14 +17,16 @@
     "decentraland-ecs": "latest"
   },
   "dependencies": {
-    "@dcl/ecs-scene-utils": "latest"
+    "@dcl/ecs-scene-utils": "latest",
+    "@dcl/ui-scene-utils": "^1.8.4"
   },
-  "bundleDependencies": [
-    "@dcl/ecs-scene-utils"
-  ],
   "engines": {
     "node": ">=16.0.0",
     "npm": ">=8.0.0",
     "yarn": "please use npm"
-  }
+  },
+  "bundledDependencies": [
+    "@dcl/ecs-scene-utils",
+    "@dcl/ui-scene-utils"
+  ]
 }
