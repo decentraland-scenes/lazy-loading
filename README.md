@@ -10,6 +10,8 @@ This scene includes multiple small buildings, each with a set of NFTs in it. Eac
 
 For easier maintenance, the scene lists all of the NFTs in the scene in an array, including data about their positions and what subScene they belong to. The scene then assigns these to their corresponding subScene and handles showing and hiding them when appropriate.
 
+We then take this further.  What if you wanted multiple galleries but not the space to display them all in your parcel.  Enter SubScenes.   We show you how to register entities to SubScenes, register those SubScenes to a Scene Manager and from there you can convienently swap out which subscenes you want visible and when.  It also provides a visibilityStrategy flag on the SubScene and registered SceneEntities allowing you to further fine tune how you manage resources of the scene.
+
 **Install the CLI**
 
 Download and install the Decentraland CLI by running the following command
@@ -44,6 +46,38 @@ sceneEntity.visibilityStrategy = VisibilityStrategyEnum.ENGINE_ADD_REMOVE
 OR
 sceneEntity.visibilityStrategy = VisibilityStrategyEnum.SHAPE_SHOW_HIDE
 ```
+
+#### `ENGINE_ADD_REMOVE`
+
+Pros
+
+* Performance gain as it completely removes the item from engine so in no way impacts engine resources (GPU, textures, systems etc)
+
+Cons
+
+* Hiding and particularly showing (for the first time) may cause some increased CPU work and may not appear immeidatly in scene.   You need to account for this.
+
+Could be good or bad
+
+* Systems are no longer aware of the entity and operate on it
+
+#### `SHAPE_SHOW_HIDE`
+
+Pros
+
+* Performance gain for the GPU.  It does not have to spend time on rendering it.
+* Because it is already in the engine it has faster loading time when hide/showing  
+
+Cons
+
+* While the GPU does not have to render it, it is still in the engine consuming resources. For example Systems still see it and operate on it.  Textures, Body counts remain higher
+
+Could be good or bad
+
+* Systems are still aware of the entity and operate on it
+
+
+### Listeners
 
 You also can choose to implement listeners to react to hiding and showing of the entity.   From here you can fully customize the life cycle of the object from a init, show and hide perspective.  For example could choose to lazy load the entity when the scene itself is init.
 
@@ -113,7 +147,7 @@ EntityWrapper "*" o-- "1" Entity : Manages the entity in unity
 SceneEntity --|> EntityWrapper: extends
 SubSceneGroup --|> SubScene: extends
 SubScene --|> BaseEntityWrapper: extends
-
+EntityWrapper --> BaseEntityWrapper : extends
 
 class SceneManager{
   scenes:SubScene[] = [] 

@@ -1,13 +1,5 @@
-import { SCENE_MGR, ROOT_SCENE_VISIBILITY_STRATEGY, ROOT_SCENE_ADD_TO_ENGINE_ON_SCENE_LOAD } from "./globals"
-import { BaseEntityWrapper, SubScene, VisibilityStrategyEnum } from "./modules/sceneMgmt/subScene"
-import { SceneVector3Type, SpawnPoint } from "./modules/sceneMgmt/types"
-import { createDispenser } from "./museum_template/booth/dispenser"
-import { addElevator } from "./museum_template/modules/elevator"
-import { addLogo } from "./museum_template/modules/logo"
-import { addNFTImage } from "./museum_template/modules/nftImage"
-import { addSculpture } from "./museum_template/modules/sculpture"
-import { addSocialLink } from "./museum_template/modules/socialLink"
-import { addVideoScreen } from "./museum_template/modules/videoScreen"
+import { ROOT_SCENE_ADD_TO_ENGINE_ON_SCENE_LOAD, ROOT_SCENE_VISIBILITY_STRATEGY, SCENE_MGR } from "./globals"
+import { BaseEntityWrapper, SubScene } from "./modules/sceneMgmt/subScene"
 import { RotatorSystem, RotatorSystemComponent } from "./rotatorSystem"
 
 /// --- Spawner function ---

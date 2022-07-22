@@ -5,11 +5,20 @@ import { BaseEntityWrapper, SceneEntity, SubScene, SubSceneGroup, VisibilityStra
 import { createScene1 } from './scene1';
 import { createScene2 } from './scene2';
 import { createScene3 } from './scene3';
-import { SCENE_MGR } from './globals';
+import { ROOT_SCENE_VISIBILITY_STRATEGY, SCENE_MGR } from './globals';
 import { createScene4 } from './scene4';
 import { createScene5 } from './scene5';
+import { createBaseScene } from './builderStaticContent_base';
 
 
+
+const baseSceneRoot = createBaseScene()
+
+
+const baseSceneId = SCENE_MGR.generateSceneId()
+const baseScene = new SubScene(baseSceneId,"baseScene",[],undefined,undefined)
+const baseSceneEntity = baseScene.addEntity(baseSceneRoot) 
+baseSceneEntity.visibilityStrategy = ROOT_SCENE_VISIBILITY_STRATEGY
 
 
 const galleryGroup1 = createScene1()
@@ -51,6 +60,7 @@ toggleEnt.addComponent(new Transform(
   
 )) 
 toggleEnt.addComponent(new OnPointerDown(()=>{
+  baseScene.show()
   
   switch(toggleCnter){
     case 0:
@@ -90,6 +100,7 @@ toggleEnt.addComponent(new OnPointerDown(()=>{
       break;
     case 5:
       SCENE_MGR.hideScenes()
+      baseScene.hide()
       //galleryGroup4.movePlayerHere()
 
       toggleTextShape.value = "Change To\nScene 1"

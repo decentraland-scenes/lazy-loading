@@ -22,7 +22,7 @@ export enum VisibilityStrategyEnum {
 }
 
 const VAULT = new Transform({
-  position:new Vector3(24,3,24), //where no one can walk
+  position:new Vector3(8,24,8), //where no one can walk
   scale: new Vector3(0,0,0) // not visible
 })
 

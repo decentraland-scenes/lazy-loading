@@ -1,7 +1,8 @@
 import * as utils from '@dcl/ecs-scene-utils'
 import config from '../config'
 
-export function addVideoScreen(pivotScene:Entity) {
+
+export function addVideoScreen(pivotScene:Entity):Entity {
 
 
     const videoClip = new VideoClip(config.videoScreen.src)
@@ -51,6 +52,7 @@ export function addVideoScreen(pivotScene:Entity) {
                 },
 
                 onCameraExit: () => {
+                    log("trigger.exit. stop video")
                     videoTexture.playing = false
                     screen.getComponent(Transform).scale.setAll(0)
                 },
@@ -59,4 +61,6 @@ export function addVideoScreen(pivotScene:Entity) {
         )
     )
     triggerEntity.setParent(pivotScene)
+
+    return screen
 }

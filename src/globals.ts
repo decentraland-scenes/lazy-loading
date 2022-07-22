@@ -4,8 +4,8 @@ import { VisibilityStrategyEnum } from "./modules/sceneMgmt/subScene";
 export const SCENE_MGR = new SceneManager(); 
  
 export const ROOT_SCENE_VISIBILITY_STRATEGY = VisibilityStrategyEnum.SHAPE_SHOW_HIDE
-export const ROOT_SCENE_ADD_TO_ENGINE_ON_SCENE_LOAD = false
-
+export const ROOT_SCENE_ADD_TO_ENGINE_ON_SCENE_LOAD = true
+ 
 export const INVISIBLE_MATERIAL = new BasicMaterial();
 const INVISIBLE_MATERIAL_texture = new Texture(
   "images/transparent-texture.png"
