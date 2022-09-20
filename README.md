@@ -12,6 +12,11 @@ For easier maintenance, the scene lists all of the NFTs in the scene in an array
 
 We then take this further.  What if you wanted multiple galleries but not the space to display them all in your parcel.  Enter SubScenes.   We show you how to register entities to SubScenes, register those SubScenes to a Scene Manager and from there you can convienently swap out which subscenes you want visible and when.  It also provides a visibilityStrategy flag on the SubScene and registered SceneEntities allowing you to further fine tune how you manage resources of the scene.
 
+## Video Tutorial
+
+[https://www.youtube.com/watch?v=DXB72BNdEuU](https://www.youtube.com/watch?v=DXB72BNdEuU)
+
+
 **Install the CLI**
 
 Download and install the Decentraland CLI by running the following command
